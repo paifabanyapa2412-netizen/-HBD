@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday</title>
+<link href="https://fonts.googleapis.com/css2?family=Itim&family=Kanit:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    font-family: 'Kanit', sans-serif;
+    background: #ffe6f0;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1 {
+    color: #ff66b2;
+    font-size: 3em;
+    margin: 20px 0;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  p.subtext {
+    font-family: 'Itim', cursive;
+    font-size: 1.2em;
+    color: #ff3399;
+    margin-bottom: 30px;
+  }
+
+  .main-image {
+    width: 300px;
+    height: 300px;
+    border-radius: 20px;
+    background: #ffcce6;
+    margin: 0 auto 30px auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 50px;
+  }
+
+  .btn {
+    padding: 12px 25px;
+    font-size: 1em;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    background: #ff66b2;
+    transition: transform 0.2s;
+  }
+
+  .btn:hover {
+    transform: scale(1.1);
+  }
+
+  /* Modal */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+  }
+
+  .modal-content {
+    background-color: #fff0f5;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 500px;
+    text-align: left;
+    color: #ff3399;
+    font-size: 1.1em;
+    font-family: 'Itim', cursive;
+  }
+
+  .close {
+    background: #ff66b2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 5px 12px;
+    cursor: pointer;
+    float: right;
+    font-size: 1em;
+  }
+
+  .album img {
+    width: 80px;
+    height: 80px;
+    margin: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  canvas {
+    position: fixed;
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+  }
+</style>
+</head>
+<body>
+
+<h1 id="happy-birthday">Happy Birthday</h1>
+<p class="subtext">October 3, 2025 — 16 years old! Hope we stay together for a long time</p>
+
+<div class="main-image" id="main-image" style="background-image:url('https://i.postimg.cc/BvDXQXmr/DSC-0128.jpg'); background-size: cover; background-position: center;">
+</div>
+
+
+<div class="buttons">
+  <button class="btn" id="surprise-btn">SURPRISE</button>
+  <button class="btn" id="picture-btn">PICTURE</button>
+  <button class="btn" id="mystery-btn">MYSTERY</button>
+</div>
+
+<!-- Surprise Modal -->
+<div id="surprise-modal" class="modal">
+  <div class="modal-content">
+    <button class="close" onclick="closeModal('surprise-modal')">Close</button>
+    <p id="surprise-text"></p>
+    
+    <audio id="surprise-music" controls>
+      <source src="ephlngrakephlngaerk-blooming-128-ytshorts.savetube.me.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+</div>
+
+<!-- Picture Modal -->
+<div id="picture-modal" class="modal">
+  <div class="modal-content">
+    <button class="close" onclick="closeModal('picture-modal')">Close</button>
+    <div class="album" id="album">
+      <img src="https://i.postimg.cc/QM5HxHfJ/1744106802342.jpg" onclick="showBigImage(this.src)">
+      <img src="https://i.postimg.cc/mrMt2tmV/20250807-172316.jpg" onclick="showBigImage(this.src)">
+      <img src="https://i.postimg.cc/sXN86gr2/DSC-0009.jpg" onclick="showBigImage(this.src)">
+      <img src="https://i.postimg.cc/y82DHFyj/1755253655996.jpg" onclick="showBigImage(this.src)">
+      <img src="https://i.postimg.cc/TYJ8GGjj/20250904-062924.jpg" onclick="showBigImage(this.src)">
+      <img src="https://i.postimg.cc/WzLSKFh3/20250910-155358.jpg" onclick="showBigImage(this.src)">
+    </div>
+    <div id="big-image-container" style="margin-top:20px;"></div>
+  </div>
+</div>
+
+<!-- Mystery Modal -->
+<div id="mystery-modal" class="modal">
+  <div class="modal-content">
+    <button class="close" onclick="closeModal('mystery-modal')">Close</button>
+    <h2>Do you love me?</h2>
+    <button class="btn" onclick="showLoveLetter()">Yes</button>
+    <button class="btn" onclick="">No</button>
+    <div id="love-letter" style="margin-top:20px;"></div>
+  </div>
+</div>
+
+<canvas id="confetti-canvas"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script>
+  const hb = document.getElementById('happy-birthday');
+  hb.addEventListener('click', () => {
+    // Confetti effect
+    confetti({
+      particleCount: 200,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  });
+
+  // Surprise Modal
+  const surpriseText = "สุขสันต์วันเกิด 16ปีแล้วน้า ที่ผ่านมาเธอทำให้เค้ามีความสุขมาโดยตลอด เค้าอยากให้เธอมีความสุขทุกๆวัน อยากให้เธอได้ทำในสิ่งที่เธอชอบ สิ่งที่เธออยากทำ ขอให้เธอกินข้าวอร่อยทุกมื้อ สุขภาพแข็งแรง อยู่ทำแพนเค้กให้เค้ากินน้าา";
+  document.getElementById('surprise-btn').onclick = () => {
+    document.getElementById('surprise-modal').style.display = 'block';
+    typeText('surprise-text', surpriseText, 0);
+  };
+
+  function typeText(elementId, text, index) {
+    if(index < text.length){
+      document.getElementById(elementId).innerHTML += text.charAt(index);
+      setTimeout(() => typeText(elementId, text, index + 1), 50);
+    }
+  }
+
+  // Picture Modal
+  document.getElementById('picture-btn').onclick = () => {
+    document.getElementById('picture-modal').style.display = 'block';
+  };
+
+  function showBigImage(src){
+    document.getElementById('big-image-container').innerHTML = `<img src="${src}" style="width:100%; border-radius:15px;">`;
+  }
+
+  // Mystery Modal
+  document.getElementById('mystery-btn').onclick = () => {
+    document.getElementById('mystery-modal').style.display = 'block';
+  };
+
+  function showLoveLetter() {
+    const loveLetter = "เค้าก็รักเธอนะคะ รักเธอมากๆเลย รักจนบางทีอาจจะกลัวเธอไม่รัก แต่เค้าอยากให้เธอรู้ว่าเค้าอยากเดินจับมือกับเธอไปเรื่อยๆไม่ว่าวันนั้นจะเป็นวันที่ดี หรือเป็นวันที่แย่ อาจจะเป็นวันที่เราทะเลาะกัน เค้าก็ไม่อยากให้เธอปล่อยมือเค้าเลยซักวัน บางครั้งเค้าอาจจะทำตัวไม่น่ารัก บางวันเค้าอาจจะหน้าบึ้ง เค้าก็ขอบคุณเธอที่คอยอยู่กับเค้า คอยปลอบเค้า คอยบอกว่าเค้าสวยมากๆ ขอบคุณเธอที่สอนให้รู้ว่าการมีคนรักที่ดีเป็นยังไง แล้วก็ สุขสันต์วันเกิดนะคนเก่งของเค้า ขอให้เธออยู่เป็นคนพิเศษของเค้าไปนานๆ อยู่ฟังเค้าเล่ารื่องไปนานๆนะคะ";
+    document.getElementById('love-letter').innerText = loveLetter;
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).style.display = 'none';
+    if(id === 'surprise-modal') document.getElementById('surprise-text').innerHTML = '';
+  }
+
+  window.onclick = function(event) {
+    ['surprise-modal','picture-modal','mystery-modal'].forEach(id => {
+      const modal = document.getElementById(id);
+      if(event.target === modal) modal.style.display = "none";
+    });
+  }
+</script>
+
+</body>
+</html>
